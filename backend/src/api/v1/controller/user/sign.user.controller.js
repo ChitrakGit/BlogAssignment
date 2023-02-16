@@ -36,7 +36,7 @@ exports.signup = async (req, res) => {
         // save user instance
         const userInstance = new UserModel({email:email,password:_password,name:name})
         const saveUser = await userInstance.save()
-        const key = JWT.sign({userId:user._id},process.env.JWT_TOKEN_KEY)
+        const key = JWT.sign({userId:userInstance._id},process.env.JWT_TOKEN_KEY)
         
         return res.status(200).send({text:TEXTS.get_succ_text,key,userInfo:saveUser})
     } catch (error) {

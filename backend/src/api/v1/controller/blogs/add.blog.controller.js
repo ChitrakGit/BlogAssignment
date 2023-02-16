@@ -8,13 +8,13 @@ require('dotenv').config();
 
 exports.addBlog = async (req, res) => {
     try {
-        
-        const {text,heading} = JSON.parse(req.body.blogInfo);
+        console.log("req.body",req.body)
+        const {text,heading} = req.body;
         const imageInfo = req.file ;
         const userId = req.user_info.userId ;
         const blogInstance = new BlogModel({text:text,heading,heading,image:imageInfo,user_id:userId})
         const saveBlog = await blogInstance.save()
-        return res.status(200).send({text:TEXTS.get_succ_text})
+        return res.status(200).send({text:TEXTS.submit_succ_text,result:saveBlog})
     } catch (error) {
         console.log(error.message, error)
         return res.status(400).send({text:TEXTS.general_error,message:error.message})

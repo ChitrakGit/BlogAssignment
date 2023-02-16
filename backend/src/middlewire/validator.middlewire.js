@@ -5,13 +5,13 @@ exports.validator = (validationSchema , parseProperty = null) => {
 	return async (req, res, next) => {
 		try {
 			let payload;
-			console.log(req.body)
+			
 			if (parseProperty) {
 				payload = JSON.parse(req.body[parseProperty]);
 			} else {
 				payload = req.body;
 			}
-			console.log(payload)
+			
 			const { error } = validationSchema.validate(payload);
 			if (error) {
 				throw error;

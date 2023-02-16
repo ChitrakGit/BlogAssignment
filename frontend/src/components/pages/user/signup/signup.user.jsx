@@ -1,13 +1,26 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { URL } from "../../../../constant/constant";
+import { useNavigate } from "react-router-dom";
+
+
 
 export const Signup = (props) => {
     const [input, setInput] =  useState({email:"",password:"",name:""});
- 
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         console.log(input);
+        const response = await axios.post(URL+"/user/signup",input)
+        console.log("response",response)
+        if(response.status == 200){
+            const result = response.data;
+            localStorage.setItem("key",result.key)
+            alert("Signup Successful");
+            return navigate("/");
+        }
     }
     const handleChange = (event)=>{
         console.log(event.target.name, event.target.value)
@@ -26,8 +39,8 @@ export const Signup = (props) => {
             <button type="submit">Sign Up</button>
         </form>
         
-        <p to="/signup">Already have an account? click Here to <Link to="/login">login</Link></p>
-        <p to="/signup">See blogs as visitor <Link to="/">Home</Link></p>
+        <p >Already have an account? click Here to <Link to="/login">login</Link></p>
+        <p >See blogs as visitor <Link to="/">Home</Link></p>
     </div>
     )
 }

@@ -1,8 +1,9 @@
 
 import './App.css';
-import { AddBlog } from './components/pages/blogs/addBlogs';
-import AllBlogs from './components/pages/blogs/allBlogs';
-import Blog from './components/pages/blogs/blog';
+import { AddBlog } from './components/pages/blogs/blogOperations/addBlogs';
+import { EditBlog } from './components/pages/blogs/blogOperations/editBlog';
+import AllBlogs from './components/pages/blogs/viewBlogs/allBlogs';
+import Blog from './components/pages/blogs/viewBlogs/blog';
 import { Login } from './components/pages/user/login/login.user';
 import { Signup } from './components/pages/user/signup/signup.user';
 import { Routes,Route } from 'react-router-dom';
@@ -12,13 +13,12 @@ function App() {
     <>
     <div className='App'>
     <Routes>
-    <Route path="/" element={<AllBlogs />} />
-        <Route path="/blog/:slug" element={<Blog />} />
-       <Route path="/signup" exact element={<Signup />} />
-       <Route path="/add-blog" exact element={<AddBlog />} />
-       <Route path="/login" exact element={<Login />} />
-       
-       
+      <Route path="/" element={<AllBlogs />} />
+      <Route path="/blog/edit/:slug" element={<EditBlog />} />
+      <Route path="/blog/:slug" element={<Blog />} />
+      <Route path="/add-blog" exact element={<AddBlog />} />
+      <Route path="/signup" exact element={<Signup />} />
+      <Route path="/login" exact element={<Login />} />             
     </Routes>
     </div>
  </>

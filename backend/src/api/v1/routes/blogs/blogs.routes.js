@@ -12,8 +12,12 @@ const { addBlogValidator } = require("../../validator/blog.validator");
 
 const router = express.Router();
 router.route("/").get(ViewBlogController.getBlogs)
-router.route("/:blog_id").get(ViewBlogController.getBlog)
+
+router.route("/edit/:blog_id").put(upload.single("image"),userAuth,EditBlogController.editBlog)
+router.route("/delete/:blog_id").delete(userAuth,EditBlogController.deleteBlog)
 
 router.route("/can-edit/:blog_id").get(userAuth,EditBlogController.editPermission)
-router.route("/add").post(upload.single("image"),validator(addBlogValidator,"blogInfo"),userAuth,AddBlogController.addBlog);
+router.route("/:blog_id").get(ViewBlogController.getBlog)
+// ,validator(addBlogValidator,"blogInfo")
+router.route("/add").post(upload.single("image"),userAuth,AddBlogController.addBlog);
 module.exports = router;

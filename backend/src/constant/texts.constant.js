@@ -6,5 +6,8 @@ exports.TEXTS = {
     user_not_found:"User not found, please sign up",
     auth_error:"Authentication failed",
     add_succ:"Form submitted successfully",
-    blog_key_not_found:"Blog Key not found"
+    blog_key_not_found:"Blog Key not found",
+    submit_succ_text:"Successfully submitted",
+    submit_dlt_text:"Successfully deleted",
+
 }

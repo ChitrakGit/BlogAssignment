@@ -8,6 +8,7 @@ require('dotenv').config();
 
 exports.editPermission = async (req, res) => {
     try {
+        
         let canEdit = false ;
         const { blog_id} = req.params ;
         const userInfo = await UserModel.findById(req.user_info.userId) ;
@@ -16,6 +17,40 @@ exports.editPermission = async (req, res) => {
         if(String(userInfo._id) == String(blogInfo.user_id)) canEdit = true ;
         
         return res.status(200).send({text:TEXTS.get_succ_text,canEdit})
+    } catch (error) {
+        console.log(error.message, error)
+        return res.status(400).send({text:TEXTS.general_error,message:error.message})
+    }
+}
+
+exports.deleteBlog = async (req, res) => {
+    try {
+        
+        let canEdit = false ;
+        const { blog_id} = req.params ;
+        const deletedBlog = await BlogModel.findByIdAndDelete(blog_id) ;
+
+        return res.status(200).send({text:TEXTS.submit_dlt_text})
+    } catch (error) {
+        console.log(error.message, error)
+        return res.status(400).send({text:TEXTS.general_error,message:error.message})
+    }
+}
+
+exports.editBlog = async (req, res) => {
+    try {
+        const {blog_id} = req.params ;
+        const updateInfo = req.body;
+        
+        const imageInfo = req.file ;
+        
+        if(imageInfo){
+            updateInfo.image = imageInfo
+        }
+        const userId = req.user_info.userId ;
+        const updateBlog = await BlogModel.findByIdAndUpdate(blog_id,{$set:updateInfo})
+       
+        return res.status(200).send({text:TEXTS.submit_succ_text})
     } catch (error) {
         console.log(error.message, error)
         return res.status(400).send({text:TEXTS.general_error,message:error.message})

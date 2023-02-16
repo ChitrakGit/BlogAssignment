@@ -1,12 +1,28 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { URL } from "../../../../constant/constant";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 export const Login = (props) => {
     const [input, setInput] = useState({email:"",password:""});
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         console.log(input);
+
+        const response = await axios.post(URL+"/user/login",input)
+        console.log("response",response)
+        if(response.status == 200){
+            const result = response.data;
+            localStorage.setItem("key",result.key)
+            alert("Login successful");
+            return navigate("/");
+        }else{
+            return alert("Wrong credentials")
+        }
     }
     const handleChange = (event)=>{
         console.log(event.target.name, event.target.value)
