@@ -10,6 +10,9 @@
     display:flex;
     max-height:60px;
   }
+  .logo-design{
+    color: aliceblue;
+  }
   #logo {
     line-height:60px;
     font-size:30px;

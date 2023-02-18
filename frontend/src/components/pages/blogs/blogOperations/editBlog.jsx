@@ -4,6 +4,7 @@ import NavBar from "../../../shared/navber/navber";
 import axios from "axios";
 import { URL } from "../../../../constant/constant";
 import { useNavigate } from "react-router-dom";
+import { CUSTOM_AXIOS } from "../../../../service/customAxios";
 export const EditBlog = (props) => {
     const navigate = useNavigate();
     const { slug } = useParams();
@@ -20,15 +21,24 @@ export const EditBlog = (props) => {
         for(let item in input){
             data.append(item,input[item]);
         }
-
-        const res = await axios.put(URL+"/blog/edit/"+slug,data,{headers:{"user-key":localStorage.getItem("key")}})
-        console.log("res",res)
-        if(res.status == 200){
-            alert("Post Edited successfully");
-            return navigate("/");
-        }else{
-            return alert(res.data.text)
+        try {
+            const res = await CUSTOM_AXIOS.put("/blog/edit/"+slug,data)
+        
+            if(res.status == 200){
+                alert("Post Edited successfully");
+                return navigate("/blog/"+slug);
+            }else{
+                alert("Failed to edit blog");
+                return navigate("/blog/"+slug);
+            }
+        } catch (error) {
+            if(error.response){
+                return alert(error.response.data.text)
+            }else{
+                console.log(error.message)
+            }
         }
+        
     }
     const handleChange = (event)=>{
         if (event.target.files) {
@@ -42,15 +52,19 @@ export const EditBlog = (props) => {
     useEffect(() => {
         
         return async() => {
-            const res = await axios.get(URL+"/blog/"+slug);
-            console.log("in details",res)
-            if(res.status=200){
-                const blogInfo = res.data.blog;
-                setInput({heading:blogInfo.heading,text:blogInfo.text})
-                // setBlog(result.blog)
-            }else{
-                return alert("Server Error")
+            try {
+                const res = await axios.get(URL+"/blog/"+slug);
+                if(res.status=200){
+                    const blogInfo = res.data.blog;
+                    setInput({heading:blogInfo.heading,text:blogInfo.text})
+                    // setBlog(result.blog)
+                }else{
+                    return alert("Server Error")
+                }
+            } catch (error) {
+                navigate("/404")
             }
+            
         };
     }, []);
 
@@ -68,7 +82,7 @@ export const EditBlog = (props) => {
 
                     <label htmlFor="heading">Blog Image</label>
                     <input onChange={handleChange} type="file" placeholder="Blog Heading" id="heading" name="image" />
-                    <button type="submit" style={{marginTop:"20px"}}>Add Blog</button>
+                    <button type="submit" style={{marginTop:"20px"}}>Edit Blog</button>
                 </form>
                 
             </div>

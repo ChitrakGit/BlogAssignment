@@ -9,5 +9,9 @@ exports.TEXTS = {
     blog_key_not_found:"Blog Key not found",
     submit_succ_text:"Successfully submitted",
     submit_dlt_text:"Successfully deleted",
+    creds_error:"Authorization error"
+}
 
+exports.CONSTANTS = {
+    expireTime: 60 * 59
 }

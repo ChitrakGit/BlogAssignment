@@ -1,10 +1,12 @@
 import React,{useState,useEffect} from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import "./blog.css"
 import NavBar from '../../../shared/navber/navber';
-import axios from 'axios';
+
 import { URL } from '../../../../constant/constant';
+import { CUSTOM_AXIOS } from '../../../../service/customAxios';
 const Blog = () => {
+    const navigate = useNavigate() ;
     const { slug } = useParams();
 
     const [blog,setBlog]  = useState(null);
@@ -12,13 +14,17 @@ const Blog = () => {
     useEffect(() => {
         
         return async() => {
-            const res = await axios.get(URL+"/blog/"+slug);
-            console.log("in details",res)
-            if(res.status=200){
-                const result = res.data;
-                setBlog(result.blog)
-            }else{
-                return alert("Server Error")
+            try {
+                const res = await CUSTOM_AXIOS.get("/blog/"+slug);
+                console.log("in details",res)
+                if(res.status=200){
+                    const result = res.data;
+                    setBlog(result.blog)
+                }else{
+                    return alert("Server Error")
+                }
+            } catch (error) {
+                navigate("/404")
             }
         };
     }, []);

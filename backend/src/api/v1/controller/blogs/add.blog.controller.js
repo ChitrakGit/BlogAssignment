@@ -8,7 +8,7 @@ require('dotenv').config();
 
 exports.addBlog = async (req, res) => {
     try {
-        console.log("req.body",req.body)
+        
         const {text,heading} = req.body;
         const imageInfo = req.file ;
         const userId = req.user_info.userId ;

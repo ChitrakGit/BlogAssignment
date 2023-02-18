@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { URL } from "../../../../constant/constant";
 import { useNavigate } from "react-router-dom";
+import { CUSTOM_AXIOS } from "../../../../service/customAxios";
 
 
 
@@ -12,14 +13,24 @@ export const Signup = (props) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log(input);
-        const response = await axios.post(URL+"/user/signup",input)
-        console.log("response",response)
-        if(response.status == 200){
-            const result = response.data;
-            localStorage.setItem("key",result.key)
-            alert("Signup Successful");
-            return navigate("/");
+        
+       try {
+            const response = await CUSTOM_AXIOS.post("/user/signup",input)
+            
+            if(response.status == 200){
+                const result = response.data;
+                alert("Signup Successful");
+                return navigate("/");
+            }else{
+                return alert(response.data.text)
+            }
+        } catch (error) {
+            if(error.response){
+                return alert(error.response.data.text)
+            }else{
+                console.log(error.message)
+            }
+            
         }
     }
     const handleChange = (event)=>{

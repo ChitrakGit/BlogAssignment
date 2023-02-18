@@ -5,9 +5,9 @@ import { URL } from '../../../constant/constant'
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-const Card = ({details}) => {
+const UserCard = ({details}) => {
     const navigate = useNavigate();
-
+    console.log("details",details)
     const deleteCard = async(id)=>{
         const text = "Sure, to delete this post";
         if (window.confirm(text) == true) {
@@ -31,7 +31,7 @@ const Card = ({details}) => {
             <div className="img-card iCard-style1">
                 <div className="card-content">
                     <div className="card-image">
-                    <span className="card-title">{ details.user_id.name}</span>
+                    
                         <img src={`${URL}/file/view/${details.image.filename}`}/>
                     </div>
                     
@@ -44,11 +44,13 @@ const Card = ({details}) => {
                 <div className="card-link">
                     <Link to={`/blog/${details._id}`}><span>Read Full</span></Link>
                 </div>
-                
+                <div className="card-link-left">
+                    <p><Link to={`/blog/edit/${details._id}`}><span>Edit</span></Link> | <span style={{cursor: "pointer"}} onClick={()=>deleteCard(details._id)} >Delete</span></p>
+                </div>
             </div>  
         </div>        
     </div>
   )
 }
 
-export default Card
+export default UserCard

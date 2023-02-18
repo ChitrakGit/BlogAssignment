@@ -8,6 +8,7 @@ require('dotenv').config();
 
 exports.getBlogs = async (req, res) => {
     try {
+        
         const blogs = await BlogModel.find().populate("user_id",{_id:0,name:1,email:1});
         return res.status(200).send({text:TEXTS.get_succ_text,blogs})
     } catch (error) {

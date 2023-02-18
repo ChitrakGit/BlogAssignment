@@ -3,6 +3,7 @@ import {  useNavigate } from "react-router-dom";
 import NavBar from "../../../shared/navber/navber";
 import axios from "axios";
 import { URL } from "../../../../constant/constant";
+import { CUSTOM_AXIOS } from "../../../../service/customAxios";
 
 export const AddBlog = (props) => {
     const navigate = useNavigate();
@@ -11,21 +12,29 @@ export const AddBlog = (props) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log(input);
-
+        
         const data = new FormData();
       
         for(let item in input){
             data.append(item,input[item]);
         }
 
-        const res = await axios.post(URL+"/blog/add",data,{headers:{"user-key":localStorage.getItem("key")}})
-        console.log("res",res)
-        if(res.status == 200){
-            alert("Post Added successfully");
-            return navigate("/");
-        }else{
-            return alert(res.data.text)
+        try {
+            const res = await CUSTOM_AXIOS.post("/blog/add",data)
+            console.log("res",res)
+            if(res.status == 200){
+                alert("Post Added successfully");
+                return navigate("/");
+            }else{
+                return alert(res.data.text)
+            }
+        } catch (error) {
+            if(error.response){
+                return alert(error.response.data.text)
+            }else{
+                console.log(error.message)
+            }
+            
         }
     }
 
