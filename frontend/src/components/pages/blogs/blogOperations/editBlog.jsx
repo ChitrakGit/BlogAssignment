@@ -5,6 +5,7 @@ import axios from "axios";
 import { URL } from "../../../../constant/constant";
 import { useNavigate } from "react-router-dom";
 import { CUSTOM_AXIOS } from "../../../../service/customAxios";
+import { handleError } from "../../../../service/handleError";
 export const EditBlog = (props) => {
     const navigate = useNavigate();
     const { slug } = useParams();
@@ -32,11 +33,11 @@ export const EditBlog = (props) => {
                 return navigate("/blog/"+slug);
             }
         } catch (error) {
-            if(error.response){
-                return alert(error.response.data.text)
-            }else{
-                console.log(error.message)
-            }
+            const msg = handleError(error)
+            localStorage.clear()
+            navigate("/")
+             alert(msg)
+             
         }
         
     }

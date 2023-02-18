@@ -4,6 +4,7 @@ import NavBar from "../../../shared/navber/navber";
 import axios from "axios";
 import { URL } from "../../../../constant/constant";
 import { CUSTOM_AXIOS } from "../../../../service/customAxios";
+import { handleError } from "../../../../service/handleError";
 
 export const AddBlog = (props) => {
     const navigate = useNavigate();
@@ -29,11 +30,10 @@ export const AddBlog = (props) => {
                 return alert(res.data.text)
             }
         } catch (error) {
-            if(error.response){
-                return alert(error.response.data.text)
-            }else{
-                console.log(error.message)
-            }
+            const msg = handleError(error)
+            localStorage.clear()
+             alert(msg)
+            return navigate("/");
             
         }
     }

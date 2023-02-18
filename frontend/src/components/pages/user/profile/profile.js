@@ -3,28 +3,41 @@ import NavBar from '../../../shared/navber/navber'
 import "./profile.css";
 import { CUSTOM_AXIOS } from '../../../../service/customAxios'
 import UserCard from '../../../shared/cards/cardsUser';
-const Profile = () => {
+import { handleError } from '../../../../service/handleError';
 
+
+const Profile = () => {
+  
     const [blogs, setBlogs] = useState([]);
-        
+    const [info,setInfo] = useState({name:"",email:""});
         useEffect(() => {
-            return async() => {
-              const res = await CUSTOM_AXIOS.get("/user/profile");
-                
-                if(res.status == 200){
-                  const result = res.data;
-                  console.log(result)
-                  setBlogs(result.userInfo.blogs)
-                }
-            };
-    }, []);
-    console.log("blogs",blogs)
+           return async() => {
+             try {
+               const res = await CUSTOM_AXIOS.get("/user/profile");
+             
+               if(res.status == 200){
+                 const result = res.data;
+                 console.log(result)
+                 const userInfo = {name:result.userInfo.name,email:result.userInfo.email}
+                 setInfo(userInfo)
+                 setBlogs(result.userInfo.blogs)
+               }
+             } catch (error) {
+               const msg = handleError(error);
+               localStorage.removeItem("secret_token")
+               localStorage.removeItem("auth_token")
+               window.location.replace('/');
+               return alert("logout and login again")
+             }
+           };
+    }, [NavBar]);
+  
   return (
     <div>
         <NavBar />
         <div className='profile_info'>
-            <h2>Name: Chitrak Biswas</h2>
-            <h3>E-mail: Chitrak@Biswas</h3>
+            <h2>Name: {info.name}</h2>
+            <h3>E-mail: {info.email }</h3>
         </div>
         <hr className='divider' />
         <div className='profile_info'>

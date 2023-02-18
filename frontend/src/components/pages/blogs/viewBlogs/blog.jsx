@@ -21,9 +21,11 @@ const Blog = () => {
                     const result = res.data;
                     setBlog(result.blog)
                 }else{
+                    localStorage.clear()
                     return alert("Server Error")
                 }
             } catch (error) {
+                
                 navigate("/404")
             }
         };

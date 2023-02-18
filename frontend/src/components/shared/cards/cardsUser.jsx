@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { URL } from '../../../constant/constant'
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { handleError } from '../../../service/handleError';
+import { CUSTOM_AXIOS } from '../../../service/customAxios';
 
 const UserCard = ({details}) => {
     const navigate = useNavigate();
@@ -11,14 +13,23 @@ const UserCard = ({details}) => {
     const deleteCard = async(id)=>{
         const text = "Sure, to delete this post";
         if (window.confirm(text) == true) {
-            const res = await axios.delete(URL+"/blog/delete/"+id,{headers:{"user-key":localStorage.getItem("key")}})
-            console.log("res",res)
-            if(res.status == 200){
-                alert("Deleted Successful")
-                return navigate(0);
-            }else{
-                return alert("Failed to delete")
+            try {
+                const res = await CUSTOM_AXIOS.delete("/blog/delete/"+id)
+                console.log("res",res)
+                if(res.status == 200){
+                    alert("Deleted Successful")
+                    return navigate(0);
+                }else{
+                    navigate("/")
+                    return alert("Failed to delete")
+                }
+            } catch (error) {
+                const errMSg = handleError(error)
+                localStorage.clear()
+                alert(errMSg)
+                return navigate("/")
             }
+            
            
           } 
         // console.log("delete card",id)
