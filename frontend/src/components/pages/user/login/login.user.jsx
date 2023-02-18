@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { URL } from "../../../../constant/constant";
 import { useNavigate } from "react-router-dom";
 import {CUSTOM_AXIOS} from "../../../../service/customAxios"
+import { handleError } from "../../../../service/handleError";
 
 
 export const Login = (props) => {
@@ -10,12 +11,12 @@ export const Login = (props) => {
     const navigate = useNavigate();
 
     const handleSubmit = async(e) => {
-        // try {
+        try {
             e.preventDefault();
             console.log(input);
 
             const response = await CUSTOM_AXIOS.post("/user/login",input)
-            console.log("response",response)
+            
             if(response.status == 200){
                 const result = response.data;
                 // localStorage.setItem("key",result.key)
@@ -24,12 +25,13 @@ export const Login = (props) => {
             }else{
                 return alert("Wrong credentials")
             }
-        // } catch (error) {
-        //     console.log(error)
-        // }
+        } catch (error) {
+            const msg = handleError(error);
+            return alert(msg)
+        }
     }
     const handleChange = (event)=>{
-        console.log(event.target.name, event.target.value)
+        
         setInput({...input,[event.target.name]:event.target.value})
     }
 
