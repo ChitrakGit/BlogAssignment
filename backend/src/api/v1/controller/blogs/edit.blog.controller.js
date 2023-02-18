@@ -10,11 +10,11 @@ exports.editPermission = async (req, res) => {
     try {
         
         let canEdit = false ;
-        const { blog_id} = req.params ;
-        const userInfo = await UserModel.findById(req.user_info.userId) ;
-        const blogInfo = await BlogModel.findById(blog_id) ;
-        console.log(String(userInfo._id) == String(blogInfo.user_id),userInfo._id, blogInfo.user_id)
-        if(String(userInfo._id) == String(blogInfo.user_id)) canEdit = true ;
+        // const { blog_id} = req.params ;
+        // const userInfo = await UserModel.findById(req.user_info.userId) ;
+        // const blogInfo = await BlogModel.findById(blog_id) ;
+        // console.log(String(userInfo._id) == String(blogInfo.user_id),userInfo._id, blogInfo.user_id)
+        // if(String(userInfo._id) == String(blogInfo.user_id)) canEdit = true ;
         
         return res.status(200).send({text:TEXTS.get_succ_text,canEdit})
     } catch (error) {
@@ -26,7 +26,6 @@ exports.editPermission = async (req, res) => {
 exports.deleteBlog = async (req, res) => {
     try {
         
-        let canEdit = false ;
         const { blog_id} = req.params ;
         const deletedBlog = await BlogModel.findByIdAndDelete(blog_id) ;
 
@@ -43,7 +42,7 @@ exports.editBlog = async (req, res) => {
         const updateInfo = req.body;
         
         const imageInfo = req.file ;
-        
+        // if user not upload image the previous image should not changed
         if(imageInfo){
             updateInfo.image = imageInfo
         }

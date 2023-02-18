@@ -15,7 +15,6 @@ exports.login = async (req, res) => {
         const isValidate = Bcrypt.compareSync(password, user.password);
         if(!isValidate) if(!user) return res.status(400).send({text:TEXTS.auth_error});
 
-        
         const key = GenKey({userId:user._id})
         
         res.setHeader('secret_token',key.refreshToken)

@@ -14,7 +14,7 @@ exports.userAuth=async(req,res,next)=>{
         
             const _time = (new Date(authVerify.expiresTime)).getTime();
             const _diff = (currentTime - _time)/1000 ;
-            console.log("_time",_time,_diff,CONSTANTS.expireTime,_diff < CONSTANTS.expireTime)
+            // check the auth time expires ot not
             if(_diff < CONSTANTS.expireTime){
                 const {refreshToken,authToken} = ReGenKey({userId:authVerify.userId})
                 //* secure
@@ -27,9 +27,8 @@ exports.userAuth=async(req,res,next)=>{
                 res.setHeader('auth_token',null)
             }
             
-            // console.log("authVerify33",authVerify)
-            
         }else{
+            // if auth_token or secret_token are undefined set header value null 
             res.setHeader('secret_token',null)
             res.setHeader('auth_token',null)
             return res.status(400).send({text:TEXTS.creds_error})
@@ -57,7 +56,7 @@ exports.readerAuth=async(req,res,next)=>{
         
             const _time = (new Date(authVerify.expiresTime)).getTime();
             const _diff = (currentTime - _time)/1000 ;
-            console.log("_time",_time,_diff,CONSTANTS.expireTime,_diff < CONSTANTS.expireTime)
+            // check the auth time expires ot not
             if(_diff < CONSTANTS.expireTime){
                 const {refreshToken,authToken} = ReGenKey({userId:authVerify.userId})
                 //* secure
@@ -73,6 +72,7 @@ exports.readerAuth=async(req,res,next)=>{
             // console.log("authVerify33",authVerify)
             
         }else{
+            // if auth_token or secret_token are undefined set header value null 
             res.setHeader('secret_token',null)
             res.setHeader('auth_token',null)
         }

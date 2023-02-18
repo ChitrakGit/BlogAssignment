@@ -10,8 +10,11 @@ exports.addBlog = async (req, res) => {
     try {
         
         const {text,heading} = req.body;
+        // get image info
         const imageInfo = req.file ;
+        // get user id
         const userId = req.user_info.userId ;
+        // save instance
         const blogInstance = new BlogModel({text:text,heading,heading,image:imageInfo,user_id:userId})
         const saveBlog = await blogInstance.save()
         return res.status(200).send({text:TEXTS.submit_succ_text,result:saveBlog})

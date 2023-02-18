@@ -22,15 +22,7 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
-// app.use(cookieParser());
 
-const expireTime = 1000 * 60  ;
-// app.use(sessions({
-//     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-//     saveUninitialized:false,
-//     cookie: { expires:expireTime, secure: true},
-//     resave: false 
-// }));
 
 connectDb()
 
