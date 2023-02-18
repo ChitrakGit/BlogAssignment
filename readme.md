@@ -34,7 +34,7 @@ npm start
 2. Run Front end application
    
    ```
-   // open termonal on BlogAssignment directory
+   // open terminal on BlogAssignment directory
     cd .\frontend\
     npm i
     npm start
