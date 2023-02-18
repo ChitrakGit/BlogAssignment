@@ -13,5 +13,7 @@ exports.TEXTS = {
 }
 
 exports.CONSTANTS = {
-    expireTime: 60 * 59
+    expireTime: 60 * 1
 }
+
+exports.MONGO_URI = "mongodb+srv://tupaichitu:P1w4dgKyuJlEdPjF@cluster0.tmjqtaj.mongodb.net/?retryWrites=true&w=majority"

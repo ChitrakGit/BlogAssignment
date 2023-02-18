@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { MONGO_URI } = require("../constant/texts.constant");
 
-const mongoURI ="mongodb://localhost:27017/BLOG_ASSIGNMENT"
+const mongoURI =MONGO_URI
 	
 
 console.log("mongoURI", mongoURI);

@@ -3,11 +3,12 @@ const multer = require("multer");
 const crypto = require("crypto");
 const path = require("path");
 const { GridFsStorage } = require("multer-gridfs-storage");
-const express = require("express")
+const express = require("express");
+const { MONGO_URI } = require("../constant/texts.constant");
 
 const router = express.Router();
 
-const mongoURI = "mongodb://localhost:27017/BLOG_ASSIGNMENT" ;
+const mongoURI = MONGO_URI ;
 const conn = mongoose.createConnection(mongoURI, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
